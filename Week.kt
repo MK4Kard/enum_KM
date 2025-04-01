@@ -1,61 +1,71 @@
 import kotlin.random.Random
 
-enum class Week {
-    Monday{
-        override fun Name() = "Понедельник"
-        override fun Stat() = "Рабочий день"
-        override var num = "1"
+enum class Status(var state: String) {
+    In_Stock("неизвестно"){
+        override fun Name_st() = "В наличии"
     },
-    Tuesday{
-        override fun Name() = "Вторник"
-        override fun Stat() = "Рабочий день"
-        override var num = "2"
+    Out_of_Stock("неизвестно"){
+        override fun Name_st() = "Нет в наличии"
+        override fun Del_time(){
+            var day = Random.nextInt(1,32)
+            var hour = Random.nextInt(0, 24)
+            var minute = Random.nextInt(0, 60)
+            println("Появление заказа: ${day} ${hour}:${minute}")
+        }
     },
-    Wednesday{
-        override fun Name() = "Среда"
-        override fun Stat() = "Рабочий день"
-        override var num = "3"
+    Order("неизвестно"){
+        override fun Name_st() = "Заказан"
     },
-    Thursday{
-        override fun Name() = "Четверг"
-        override fun Stat() = "Рабочий день"
-        override var num = "4"
+    Expected("неизвестно"){
+        override fun Name_st() = "Ожидается"
+        override fun Del_time(){
+            println("Заказ уже идёт")
+        }
     },
-    Friday{
-        override fun Name() = "Пятница"
-        override fun Stat() = "Рабочий день"
-        override var num = "5"
-    },
-    Saturday{
-        override fun Name() = "Суббота"
-        override fun Stat() = "Выходной день"
-        override var num = "6"
-    },
-    Sunday{
-        override fun Name() = "Воскресенье"
-        override fun Stat() = "Выходной день"
-        override var num = "7"
+    Ready("неизвестно"){
+        override fun Name_st() = "Пришёл"
+        override fun Del_time(){
+            println("")
+        }
     };
 
-    open var num = "0"
-    open fun Name() = "Понедельник, Вторник, Среда, Четверг, Пятница, Суббота, Воскресенье"
-    open fun Stat() = "Рабочий день, Выходной день"
-    open fun Chance(){
-        var rnd = Random.nextInt(0, 6)
-        when(rnd) {
-            in 0..1 -> println("Да")
-            in 2..5 -> println("Нет")
+    open fun Name_st() = "В наличии"
+    open fun Del_time() {
+        var day = Random.nextInt(1,32)
+        var hour = Random.nextInt(0, 24)
+        var minute = Random.nextInt(0, 60)
+        println("Дата и время доставки: ${day} ${hour}:${minute}")
+    }
+    var price = 0
+    open fun Price() {
+        price = Random.nextInt(100, 10001)
+        println("Цена: ${price}")
+    }
+    open fun State_pr() {
+        var st = Random.nextInt(0, 3)
+        when(st){
+            0 -> state = "В порядке"
+            1 -> state = "С небольшими повреждениями"
+            2 -> state = "В плохом состоянии"
         }
     }
-    open fun Weather(){
-        var rnd = Random.nextInt(0, 6)
-        when(rnd) {
-            0 -> println("пасмурная")
-            1 -> println("ясная")
-            2 -> println("дождливая")
-            3 -> println("теплая")
-            4 -> println("ветренная")
-            5 -> println("солнечная")
+    open fun Payment(way: Int, pay: Int, share: Int){
+        if ((way > 0 && way < 3)|| pay > 0 || share > 0) {
+            when (way) {
+                1 -> if (pay >= price) {
+                    println("Оплата выполнена")
+                } else {
+                    println("Недостаточно средств")
+                }
+
+                2 -> if (pay >= price / share) {
+                    println("Оплата выполнена")
+                } else {
+                    println("Недостаточно средств")
+                }
+            }
+        }else {
+            println("неверные данные")
         }
     }
 }
