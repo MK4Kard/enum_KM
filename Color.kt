@@ -27,6 +27,7 @@ enum class Color(var price: Int) {
     };
 
     var count = 0
+    var count_st = Random.nextInt(1, 51)
     open fun Name() = "Красный, Синий, Зеленый, Желтый, Черный, Белый"
     open fun NumStore() = "151, А45, 56Б12"
     open var v = 5
@@ -46,11 +47,10 @@ enum class Color(var price: Int) {
         }
     }
     open fun Count_paint(count: Int){
-        var count_st = Random.nextInt(1, 51)
         if (count > count_st){
             println("На складе нет такого количества краски")
         }
-        else {
+        else if (count > 0) {
             when {
                 count % 100 in 11..14 -> println("Вы берёте ${count} банок")
                 count % 10 == 1 -> println("Вы берёте ${count} банку")
@@ -58,6 +58,9 @@ enum class Color(var price: Int) {
                 else -> println("Вы берёте ${count} банок")
             }
             this.count = count
+        }
+        else {
+            println("Отрицательное количество")
         }
     }
 }
