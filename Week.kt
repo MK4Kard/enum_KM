@@ -58,10 +58,14 @@ enum class Status(var state: String) {
                     println("Недостаточно средств")
                 }
 
-                2 -> if (pay >= price / share) {
-                    println("Оплата выполнена")
-                } else {
-                    println("Недостаточно средств")
+                2 -> if(share > 1) {
+                    if (pay >= price / share) {
+                        println("Оплата выполнена")
+                    } else {
+                        println("Недостаточно средств")
+                    }
+                }else {
+                    println("Долей минимум должно быть 2")
                 }
             }
         }else {
